@@ -10,29 +10,52 @@ st.set_page_config(page_title="Bluestock MF Dashboard", layout="wide", page_icon
 # Premium Glassmorphism & Aesthetics CSS
 st.markdown("""
     <style>
-    /* App background gradient */
+    /* Animated Gradient App Background */
     .stApp {
-        background: linear-gradient(135deg, #0a0e17 0%, #1a1b4b 100%);
+        background: linear-gradient(-45deg, #0a0e17, #1a1b4b, #3a0ca3, #0a0e17);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
         background-attachment: fixed;
     }
+    
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* Master Glass Container for the whole page */
+    .block-container {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+        margin-top: 2rem !important;
+        margin-bottom: 2rem !important;
+    }
+    
     /* Hide top header bar */
     header { visibility: hidden; }
     
     /* Glassmorphism for Metric Cards */
     [data-testid="stMetric"] {
-        background: rgba(255, 255, 255, 0.03);
+        background: rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
         border-radius: 15px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.15);
         box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         padding: 20px;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     [data-testid="stMetric"]:hover {
         transform: translateY(-5px);
-        box-shadow: 0 12px 40px 0 rgba(0, 210, 255, 0.2);
-        border: 1px solid rgba(0, 210, 255, 0.4);
+        box-shadow: 0 12px 40px 0 rgba(0, 210, 255, 0.3);
+        border: 1px solid rgba(0, 210, 255, 0.5);
     }
     
     /* Typography Overrides */
@@ -241,12 +264,12 @@ elif page == "SIP & Market Trends":
     
     c1, c2 = st.columns(2)
     df_cat = pd.read_csv('data/processed/05_category_inflows.csv')
-    fig_heat = px.density_heatmap(df_cat, x="month", y="category", z="net_inflow_crore", title="Sector Capital Rotation (Heatmap)", color_continuous_scale="Viridis")
+    fig_heat = px.density_heatmap(df_cat, x="month", y="category", z="net_inflow_crore", title="Sector Capital Rotation (Heatmap)", color_continuous_scale="Electric")
     fig_heat = apply_glass_theme(fig_heat)
     c1.plotly_chart(fig_heat, use_container_width=True)
     
     top_cat = df_cat.groupby('category')['net_inflow_crore'].sum().reset_index().sort_values('net_inflow_crore', ascending=False).head(5)
-    fig_top = px.bar(top_cat, x='net_inflow_crore', y='category', orientation='h', title="Top 5 Capital Sink Categories", color='net_inflow_crore', color_continuous_scale='Magma')
+    fig_top = px.bar(top_cat, x='net_inflow_crore', y='category', orientation='h', title="Top 5 Capital Sink Categories", color='net_inflow_crore', color_continuous_scale='Electric')
     fig_top.update_layout(yaxis={'categoryorder':'total ascending'})
     fig_top = apply_glass_theme(fig_top)
     c2.plotly_chart(fig_top, use_container_width=True)
