@@ -26,7 +26,7 @@ def load_and_explore_datasets():
 def explore_fund_master(df_fund_master):
     print("\n--- Exploring Fund Master ---")
     
-    columns_to_check = ['fund_house', 'category', 'sub_category', 'risk_grade']
+    columns_to_check = ['fund_house', 'category', 'sub_category', 'risk_category']
     for col in columns_to_check:
         if col in df_fund_master.columns:
             print(f"\nUnique {col}s ({df_fund_master[col].nunique()}):")
@@ -37,16 +37,16 @@ def explore_fund_master(df_fund_master):
 def validate_amfi_codes(df_fund_master, df_nav_history):
     print("\n--- Validating AMFI Codes ---")
     
-    if 'scheme_code' not in df_fund_master.columns:
-        print("Error: 'scheme_code' column missing from fund_master")
+    if 'amfi_code' not in df_fund_master.columns:
+        print("Error: 'amfi_code' column missing from fund_master")
         return
         
-    if 'scheme_code' not in df_nav_history.columns:
-        print("Error: 'scheme_code' column missing from nav_history")
+    if 'amfi_code' not in df_nav_history.columns:
+        print("Error: 'amfi_code' column missing from nav_history")
         return
 
-    master_codes = set(df_fund_master['scheme_code'].unique())
-    history_codes = set(df_nav_history['scheme_code'].unique())
+    master_codes = set(df_fund_master['amfi_code'].unique())
+    history_codes = set(df_nav_history['amfi_code'].unique())
     
     missing_in_history = master_codes - history_codes
     missing_in_master = history_codes - master_codes

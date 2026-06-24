@@ -1,0 +1,7 @@
+Data Quality Summary: AMFI Code Validation
+=============================================
+SUCCESS: All AMFI codes from fund_master exist in nav_history.
+
+General Notes:
+- Data types appear consistent across loaded CSVs.
+- Validation step successfully checked cross-referential integrity of scheme_code.
