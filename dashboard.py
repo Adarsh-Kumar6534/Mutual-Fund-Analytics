@@ -38,8 +38,8 @@ st.markdown("""
         margin-bottom: 2rem !important;
     }
     
-    /* Hide top header bar */
-    header { visibility: hidden; }
+    /* Hide Streamlit Deploy Button instead of the whole header */
+    .stDeployButton { display: none !important; }
     
     /* Glassmorphism for Metric Cards */
     [data-testid="stMetric"] {
