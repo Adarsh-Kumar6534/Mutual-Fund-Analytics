@@ -246,6 +246,68 @@ cells.append(nbf.v4.new_markdown_cell("""## 10. Key EDA Findings Summary
 9. **Retail Boom**: Industry folio counts nearly doubled from 13.26 Cr in Jan 2022 to over 26 Cr in Dec 2025, showing massive retail participation growth.
 10. **Correlations & Sectors**: Large-cap funds show extremely high positive correlation in daily returns, heavily driven by their shared large allocations to the Financial Services sector."""))
 
+# Task 11: Expense Ratio Distribution
+cells.append(nbf.v4.new_markdown_cell("## 11. Expense Ratio Distribution\n**Finding:** Most funds cluster around 1.0% - 1.5% expense ratios."))
+cells.append(nbf.v4.new_code_cell("""# 11. Expense ratio distribution
+plt.figure(figsize=(10, 6))
+sns.histplot(df_fund['expense_ratio_pct'].dropna(), bins=10, kde=True, color='purple')
+plt.title('Expense Ratio Distribution', fontsize=14)
+plt.xlabel('Expense Ratio (%)')
+plt.savefig('../reports/charts/10_expense_ratio.png')
+plt.show()"""))
+
+# Task 12: Morningstar Rating Distribution
+cells.append(nbf.v4.new_markdown_cell("## 12. Morningstar Rating Distribution\n**Finding:** Most selected schemes hold 3 or 4-star ratings."))
+cells.append(nbf.v4.new_code_cell("""# 12. Morningstar Rating Distribution
+plt.figure(figsize=(8, 6))
+sns.countplot(data=df_perf, x='morningstar_rating', palette='Set2')
+plt.title('Morningstar Rating Distribution', fontsize=14)
+plt.xlabel('Rating (Stars)')
+plt.savefig('../reports/charts/11_morningstar_rating.png')
+plt.show()"""))
+
+# Task 13: Top 10 Stocks
+cells.append(nbf.v4.new_markdown_cell("## 13. Top 10 Stocks by Market Value\n**Finding:** HDFC Bank and Reliance dominate the top holdings."))
+cells.append(nbf.v4.new_code_cell("""# 13. Top 10 Stocks
+top_stocks = df_port.groupby('stock_symbol')['market_value_cr'].sum().sort_values(ascending=False).head(10)
+plt.figure(figsize=(12, 6))
+sns.barplot(x=top_stocks.values, y=top_stocks.index, palette='magma')
+plt.title('Top 10 Stocks by Aggregate Market Value (Crores)', fontsize=14)
+plt.xlabel('Market Value (Crores)')
+plt.savefig('../reports/charts/12_top_10_stocks.png')
+plt.show()"""))
+
+# Task 14: Risk Category Distribution
+cells.append(nbf.v4.new_markdown_cell("## 14. Risk Category Distribution\n**Finding:** 'Very High' risk category is heavily represented due to small/mid cap funds."))
+cells.append(nbf.v4.new_code_cell("""# 14. Risk Category
+risk_counts = df_fund['risk_category'].value_counts()
+plt.figure(figsize=(8, 8))
+plt.pie(risk_counts, labels=risk_counts.index, autopct='%1.1f%%', startangle=90, colors=sns.color_palette('pastel'))
+plt.title('Risk Category Distribution', fontsize=14)
+plt.savefig('../reports/charts/13_risk_category.png')
+plt.show()"""))
+
+# Task 15: Payment Mode
+cells.append(nbf.v4.new_markdown_cell("## 15. Transaction Payment Modes\n**Finding:** UPI is the dominant payment mode for SIP and Lumpsum transactions."))
+cells.append(nbf.v4.new_code_cell("""# 15. Payment Mode
+payment_counts = df_inv['payment_mode'].value_counts()
+plt.figure(figsize=(8, 8))
+plt.pie(payment_counts, labels=payment_counts.index, autopct='%1.1f%%', startangle=90)
+plt.title('Payment Mode Split', fontsize=14)
+plt.savefig('../reports/charts/14_payment_mode.png')
+plt.show()"""))
+
+# Task 16: Top Fund Managers
+cells.append(nbf.v4.new_markdown_cell("## 16. Top Fund Managers\n**Finding:** Certain managers oversee multiple flagship funds across categories."))
+cells.append(nbf.v4.new_code_cell("""# 16. Top Fund Managers
+manager_counts = df_fund['fund_manager'].value_counts().head(10)
+plt.figure(figsize=(12, 6))
+sns.barplot(x=manager_counts.values, y=manager_counts.index, palette='cubehelix')
+plt.title('Top 10 Fund Managers by Number of Schemes Managed', fontsize=14)
+plt.xlabel('Number of Schemes')
+plt.savefig('../reports/charts/15_fund_managers.png')
+plt.show()"""))
+
 nb['cells'] = cells
 with open('notebooks/EDA_Analysis.ipynb', 'w', encoding='utf-8') as f:
     nbf.write(nb, f)
