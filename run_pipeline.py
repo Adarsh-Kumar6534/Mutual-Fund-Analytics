@@ -1,8 +1,22 @@
+"""
+Master execution script for the Bluestock Mutual Fund Analytics ETL Pipeline.
+This script utilizes pathlib to dynamically locate and execute the ingestion,
+cleaning, and database loading modules in sequence.
+"""
+
 import subprocess
 from pathlib import Path
 import sys
 
 def run_pipeline():
+    """
+    Executes the full ETL pipeline by sequentially calling:
+    1. data_ingestion.py
+    2. data_cleaning.py
+    3. db_loader.py
+    
+    If any script fails, the pipeline halts and returns the exit code.
+    """
     print("🚀 Starting ETL Pipeline...")
     base_dir = Path(__file__).resolve().parent
     
