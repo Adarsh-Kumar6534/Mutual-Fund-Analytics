@@ -60,6 +60,8 @@ cells.append(nbf.v4.new_markdown_cell("""## 2. AUM Growth by Fund House
 cells.append(nbf.v4.new_code_cell("""# 2. AUM growth bar chart — grouped bar by fund house for each year 2022–2025. 
 # Highlight SBI at ₹12.5L Cr dominance using Seaborn.
 
+df_aum['year'] = pd.to_datetime(df_aum['date']).dt.year.astype(str)
+
 plt.figure(figsize=(14, 8))
 sns.barplot(data=df_aum, x='fund_house', y='aum_crore', hue='year', palette='viridis')
 plt.title('AUM Growth by Fund House (2022-2025)', fontsize=16)
